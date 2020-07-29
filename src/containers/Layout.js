@@ -14,27 +14,6 @@ class Layout extends Component {
         this.setState({ selectedOption }, function(){
             this.props.fetchFilms(this.props.characters[selectedOption.value]["films"])
         });
-        
-        // this.props.characters[selectedOption.value]["films"].map(film =>
-        //     (this.props.fetchFilms(film))
-        // )
-
-        // this.props.characters[selectedOption.value]["films"].map(film =>{
-        //     fetch(film
-        //         ,
-        //         {
-        //             method: "GET",
-        //         }
-        //     )
-        //         .then(res => res.json())
-        //         .then(response => {
-        //             this.state.filmList.push(response.title)
-        //         })
-        //         .catch(error => console.log(error));
-        //     }
-        // )
-
-        // console.log(this.state.filmList)
     }
 
     componentDidMount() {
@@ -44,16 +23,14 @@ class Layout extends Component {
     render() {
         return (
             <div>
-                {this.props.ings}<br />
                 STAR WARS <br />
-                <button onClick={this.props.onValueAdd}>Click me</button><br />
                 <Select onChange={this.handleChange}
                     options={this.props.characters.map((character, index) =>
                         ({ label: character.name, value: index })
                     )} /><br />
                 <ul>
                     {this.props.films.map(film =>
-                        <li>{film}</li>
+                        <li>{film.title}</li>
                     )}
                 </ul>
             </div>
@@ -64,7 +41,6 @@ class Layout extends Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.initialValue,
         characters: state.characters,
         films: state.films
     };
@@ -72,7 +48,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onValueAdd: () => dispatch(actions.add(1)),
         onInitCharacters: () => dispatch(actions.onInitCharacters()),
         fetchFilms: (filmUrl) => dispatch(actions.fetchFilms(filmUrl))
     }
