@@ -11,9 +11,12 @@ class Layout extends Component {
     }
 
     handleChange = (selectedOption) => {
-        this.setState({ selectedOption }, function(){
-            this.props.fetchFilms(this.props.characters[selectedOption.value]["films"])
-        });
+        // this.setState({ selectedOption }, function(){
+        //     this.props.fetchFilms(this.props.characters[selectedOption.value]["films"])
+        // });
+        this.setState({ selectedOption });
+        this.props.fetchFilms(this.props.characters[selectedOption.value]["films"])
+
     }
 
     componentDidMount() {
@@ -28,11 +31,20 @@ class Layout extends Component {
                     options={this.props.characters.map((character, index) =>
                         ({ label: character.name, value: index })
                     )} /><br />
-                <ul>
-                    {this.props.films.map(film =>
-                        <li>{film.title}</li>
-                    )}
-                </ul>
+                {this.props.films.map(film => {
+                    return <li>{film.title}</li>
+                })}
+                <br />
+
+                {this.props.films.length > 0 ?
+                    <div>Name/Year of last Movie<br />
+                        {this.props.films.map((film, i) => {
+                            const date = film.release_date.split('-');
+                            return this.props.films[i + 1] ? null : <div>{film.title} - {date[0]}</div>
+                        })}</div>
+                    :
+                    null}
+
             </div>
         )
     }
